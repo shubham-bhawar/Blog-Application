@@ -1,15 +1,19 @@
 package com.codewithshubham.blog.payloads;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 public class ApiResponse {
 
     private String message;
     private boolean success;
 
+    public ApiResponse() {
+    }
+
+    public ApiResponse( String message,boolean success) {
+        this.success = success;
+        this.message = message;
+    }
 }

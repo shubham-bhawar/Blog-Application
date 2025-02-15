@@ -1,26 +1,27 @@
 package com.codewithshubham.blog.exceptions;
 
 
-import com.codewithshubham.blog.payloads.ApiResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.codewithshubham.blog.payloads.ApiResponse;
 
-@ControllerAdvice
+
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponse> handleResourceNotFoundException(ResourceNotFoundException ex){
-        ApiResponse apiException = new ApiResponse();
-        apiException.setMessage(ex.getMessage());
-        apiException.setSuccess(false);
-        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
+    public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
+        String message = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse( message,false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -39,7 +40,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiResponse> handleApiException(ApiException ex) {
         String message = ex.getMessage();
-        ApiResponse apiResponse = new ApiResponse(message, true);
+        ApiResponse apiResponse = new ApiResponse( message,true);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
     }
+
+
 }
